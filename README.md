@@ -26,7 +26,11 @@ __Tested models:__ `QL-720NW`
 
 (if you have tried this with other models, please update this list and send a pull request)
 
-__NOTE:__ Currently, you will need to adjust the `modelName` variable in `src/android/BrotherPrinter.java`. It is the first variable in the `BrotherPrinter` class. This could be extended to be configured through config.xml or via a JS call, but it's currently hard-coded. Feel free to send a pull request to make the configuration more extensible... 
+__NOTE:__ You must set the model name via `config.xml` preferences, using the example below... If no value is set, the default is `QL-720NW`.
+
+```xml
+    <preference name="brother-label-printer-model" value="QL-720NW"/>
+```
 
 
 ## Supported interfaces (by this plugin):

@@ -47,7 +47,11 @@ import com.brother.ptouch.sdk.PrinterStatus;
 
 public class BrotherPrinter extends CordovaPlugin {
 
-    String modelName = "QL-720NW";
+    String modelName = cordova.getActivity().getIntent().getStringExtra("brother-label-printer-model");
+    if (modelName == null) {
+        modelName = "QL-720NW";
+    }
+
     private NetPrinter[] netPrinters;
 
     private String ipAddress   = null;
@@ -237,7 +241,6 @@ public class BrotherPrinter extends CordovaPlugin {
             }
         });
     }
-
 
     private void sendUSBConfig(final JSONArray args, final CallbackContext callbackctx){
 

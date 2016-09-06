@@ -73,8 +73,8 @@ public class BrotherPrinter extends CordovaPlugin {
             return true;
         }
 
-        if ("sendUSBConfig".equals(action)) {
-            sendUSBConfig(args, callbackContext);
+        if ("commandViaUSB".equals(action)) {
+            commandViaUSB(args, callbackContext);
             return true;
         }
 
@@ -245,7 +245,7 @@ public class BrotherPrinter extends CordovaPlugin {
         });
     }
 
-    private void sendUSBConfig(final JSONArray args, final CallbackContext callbackctx){
+    private void commandViaUSB(final JSONArray args, final CallbackContext callbackctx){
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -318,10 +318,9 @@ public class BrotherPrinter extends CordovaPlugin {
                 //label info must be set after setPrinterInfo, it's not in the docs
                 myPrinter.setLabelInfo(myLabelInfo);
 
-
                 try {
                     File outputDir = context.getCacheDir();
-                    File outputFile = new File(outputDir.getPath() + "configure.prn");
+                    File outputFile = new File(outputDir.getPath() + "command.prn");
 
                     FileWriter writer = new FileWriter(outputFile);
                     writer.write(args.optString(0, null));

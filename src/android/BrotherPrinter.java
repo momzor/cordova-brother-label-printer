@@ -47,17 +47,13 @@ import com.brother.ptouch.sdk.PrinterStatus;
 
 public class BrotherPrinter extends CordovaPlugin {
 
-    String modelName = cordova.getActivity().getIntent().getStringExtra("brother-label-printer-model");
-    if (modelName == null) {
-        modelName = "QL-720NW";
-    }
-
     private NetPrinter[] netPrinters;
 
-    private String ipAddress   = null;
-    private String macAddress  = null;
-    private Boolean searched   = false;
-    private Boolean found      = false;
+    private String ipAddress    = null;
+    private String macAddress   = null;
+    private String printerModel = null;
+    private Boolean searched    = false;
+    private Boolean found       = false;
 
     //token to make it easy to grep logcat
     private static final String TAG = "print";
@@ -88,6 +84,12 @@ public class BrotherPrinter extends CordovaPlugin {
     private NetPrinter[] enumerateNetPrinters() {
         Printer myPrinter = new Printer();
         PrinterInfo myPrinterInfo = new PrinterInfo();
+
+        String modelName = cordova.getActivity().getIntent().getStringExtra("brother-label-printer-model");
+        if (modelName == null) {
+            modelName = "QL-720NW";
+        }
+
         netPrinters = myPrinter.getNetPrinters(modelName);
         return netPrinters;
     }
@@ -116,6 +118,7 @@ public class BrotherPrinter extends CordovaPlugin {
 
                             ipAddress = netPrinters[i].ipAddress;
                             macAddress = netPrinters[i].macAddress;
+                            printerModel = netPrinters[i].modelName;
 
                             netPrinter.put("ipAddress", netPrinters[i].ipAddress);
                             netPrinter.put("macAddress", netPrinters[i].macAddress);
@@ -198,7 +201,7 @@ public class BrotherPrinter extends CordovaPlugin {
 
                     myPrinterInfo = myPrinter.getPrinterInfo();
 
-                    myPrinterInfo.printerModel  = PrinterInfo.Model.QL_720NW;
+                    myPrinterInfo.printerModel  = PrinterInfo.Model.valueOf(printerModel);
                     myPrinterInfo.port          = PrinterInfo.Port.NET;
                     myPrinterInfo.printMode     = PrinterInfo.PrintMode.ORIGINAL;
                     myPrinterInfo.orientation   = PrinterInfo.Orientation.PORTRAIT;
@@ -298,7 +301,7 @@ public class BrotherPrinter extends CordovaPlugin {
 
                 myPrinterInfo = myPrinter.getPrinterInfo();
 
-                myPrinterInfo.printerModel  = PrinterInfo.Model.QL_720NW;
+                myPrinterInfo.printerModel  = PrinterInfo.Model.valueOf(printerModel);
                 myPrinterInfo.port          = PrinterInfo.Port.USB;
                 myPrinterInfo.paperSize     = PrinterInfo.PaperSize.CUSTOM;
 

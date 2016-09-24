@@ -86,9 +86,13 @@ public class BrotherPrinter extends CordovaPlugin {
         PrinterInfo myPrinterInfo = new PrinterInfo();
 
         String modelName = cordova.getActivity().getIntent().getStringExtra("brother-label-printer-model");
+        Log.d(TAG, "brother-label-printer-model config value: " + modelname);
+
         if (modelName == null) {
             modelName = "QL-720NW";
         }
+
+        Log.d(TAG, "getNetPrinters arg: " + modelname);
 
         netPrinters = myPrinter.getNetPrinters(modelName);
         return netPrinters;

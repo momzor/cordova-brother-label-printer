@@ -32,7 +32,6 @@ __NOTE:__ You must set the model name via `config.xml` preferences, using the ex
     <preference name="brother-label-printer-model" value="QL-720NW"/>
 ```
 
-
 ## Supported interfaces (by this plugin):
 ```
 Wi-Fi (Infrastructure mode)
@@ -41,7 +40,7 @@ USB
 
 _The SDK also has Bluetooth support, but this is not integrated currently. Pull requests are welcomed..._
 
-## Usage
+# Usage
 
 See here for JS interfaces to the plugin: `www/printer.js`
 
@@ -51,10 +50,19 @@ There are three available methods...
 * printViaSDK
 * commandViaUSB
 
-__findNetworkPrinters__ must be called before printViaSDK. It takes no parameters and returns two parameters, one is a boolean (whether a printer was found or not), and the other is a list of found printers. To print, all that's needed are the IP and MAC of the target printer.
+##findNetworkPrinters
+Must be called before printViaSDK. It takes no parameters and returns two parameters, one is a boolean (whether a printer was found or not), and the other is a list of found printers. To print, all that's needed are the IP and MAC of the target printer.
 
 Currently, the last printer that is found will be the one targetted due to the way we're looping over the `netPrinters` array. This plugin could be extended to allow the user to select which printer they want to connect with... If this is desired, let me know, and I'll address when I get a chance, or better yet, send a pull request. The best way would either be to pass the printer IP/MAC to the printViaSDK method, or perhaps you could just pass an index to select the desired printer from the `netPrinters` list.
 
-__printViaSDK__ takes one parameter, which is a base64 encoded bitmap image. The result should be a status code that is passed directly from the SDK. The status codes are documnted in the Brother SDK Appendix in section 4.2.2.5.Error Code. If everything works, the response should be "ERROR_NONE".
+##printViaSDK
+Takes one parameter, which is a base64 encoded bitmap image. The result should be a status code that is passed directly from the SDK. The status codes are documnted in the Brother SDK Appendix in section 4.2.2.5.Error Code. If everything works, the response should be "ERROR_NONE".
 
-__commandViaUSB__ calls the Brother SDK's `printFile` method. The expected input is a string containing raw print commands, which is written to a temporary file in the app cache directory, and is then sent to the `printFile` method and deleted afterwards. You will need a device that supports USB-OTG and a USB-OTG cable. On first run the app will request USB permissions, and it should be saved after that for subsequent prints. This method is used to send raw commands in PCL (Printer Control Language) to the printer... For example, to configure the network settings of the printer, etc... You will need to reach out to Brother for documentation of the PCL commands. You can probably find them by searching for "[Brother Printer Command Reference](https://duckduckgo.com/?q=Brother+Printer+Command+Reference)" and appending your model number. This method could be extended easily to accept other types of file input, so you could, for example, print JPG images, etc... Pull requests are welcomed.
+You can set the orientation via `config.xml` preferences, using the example below... If no value is set, the default is `portrait`.
+
+```xml
+    <preference name="brother-label-printer-orientation" value="landscape"/>
+```
+
+##commandViaUSB
+Calls the Brother SDK's `printFile` method. The expected input is a string containing raw print commands, which is written to a temporary file in the app cache directory, and is then sent to the `printFile` method and deleted afterwards. You will need a device that supports USB-OTG and a USB-OTG cable. On first run the app will request USB permissions, and it should be saved after that for subsequent prints. This method is used to send raw commands in PCL (Printer Control Language) to the printer... For example, to configure the network settings of the printer, etc... You will need to reach out to Brother for documentation of the PCL commands. You can probably find them by searching for "[Brother Printer Command Reference](https://duckduckgo.com/?q=Brother+Printer+Command+Reference)" and appending your model number. This method could be extended easily to accept other types of file input, so you could, for example, print JPG images, etc... Pull requests are welcomed.

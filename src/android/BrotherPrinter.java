@@ -205,10 +205,25 @@ public class BrotherPrinter extends CordovaPlugin {
 
                     myPrinterInfo = myPrinter.getPrinterInfo();
 
+                    //get orientation from config, or default to portrait
+                    String orientation = cordova.getActivity().getIntent().getStringExtra("brother-label-printer-orientation");
+                    Log.d(TAG, "brother-label-printer-orientation config value: " + orientation);
+            
+                    if (orientation == null) {
+                        orientation = "portrait"
+                    }
+
+                    if (orientation == "landscape") {
+                        myPrinterInfo.orientation = PrinterInfo.Orientation.LANDSCAPE;
+
+                    }else if (orientation == "portrait") {
+                        myPrinterInfo.orientation = PrinterInfo.Orientation.PORTRAIT;
+
+                    }
+
                     myPrinterInfo.printerModel  = PrinterInfo.Model.valueOf(printerModel);
                     myPrinterInfo.port          = PrinterInfo.Port.NET;
                     myPrinterInfo.printMode     = PrinterInfo.PrintMode.ORIGINAL;
-                    myPrinterInfo.orientation   = PrinterInfo.Orientation.PORTRAIT;
                     myPrinterInfo.paperSize     = PrinterInfo.PaperSize.CUSTOM;
                     myPrinterInfo.ipAddress     = ipAddress;
                     myPrinterInfo.macAddress    = macAddress;

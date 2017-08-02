@@ -33,6 +33,9 @@
         </config-file>
 
         <source-file src="src/android/BrotherPrinter.java" target-dir="src/com/momzor/cordova/plugin/brotherPrinter" />
+        <source-file src="src/android/PrinterUtil.java" target-dir="src/com/momzor/cordova/plugin/brotherPrinter" />
+        <source-file src="src/android/PrintJobSetting.java" target-dir="src/com/momzor/cordova/plugin/brotherPrinter" />
+
         <source-file src="src/android/libs/BrotherPrintLibrary.jar" target-dir="libs" />
         <source-file src="src/android/libs/armeabi/libAndrJFPDFEMB.so" target-dir="libs/armeabi" />
         <source-file src="src/android/libs/armeabi/libcreatedata.so" target-dir="libs/armeabi" />
